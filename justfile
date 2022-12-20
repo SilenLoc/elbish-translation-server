@@ -1,8 +1,6 @@
 @_list:
 	just --list --unsorted
 
-alias c := check
-
 alias r := run
 
 bt := '0'
