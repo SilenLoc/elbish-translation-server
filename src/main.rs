@@ -1,7 +1,7 @@
 mod routeselb;
 
 use crate::routeselb::{example, ready, translate};
-use actix_web::{get, middleware, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{middleware, App, HttpServer};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
