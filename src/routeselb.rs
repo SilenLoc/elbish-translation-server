@@ -65,9 +65,9 @@ pub async fn ready() -> impl Responder {
     HttpResponse::Ok().body("ready to response")
 }
 
-pub fn translate_content(content: &String) -> Result<TransResponse, TransErr> {
-    match content.as_str() {
+pub fn translate_content(content: &str) -> Result<TransResponse, TransErr> {
+    match content {
         "" => Err(TransErr::new("Blank translation content")),
-        _ => Ok(TransResponse::new_string(content.clone())),
+        _ => Ok(TransResponse::new_string(content.to_string())),
     }
 }

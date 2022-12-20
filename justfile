@@ -9,8 +9,9 @@ log := "warn"
 
 export JUST_LOG := log
 
+# Wtach the source files and run `just verify` when sources change
 watch:
-    cargo watch -c
+	cargo watch -c -- just verify
 
 run:
     cargo run
@@ -18,8 +19,8 @@ run:
 
 # Run the static code analysis
 lint:
-	cargo fmt -- --check
-	cargo hack clippy --feature-powerset --all-targets
+	cargo fmt --check
+	cargo clippy --all-targets
 
 # Clean up compilation output
 clean:
