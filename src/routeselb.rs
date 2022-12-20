@@ -8,10 +8,6 @@ pub struct TransReq {
 }
 
 impl TransReq {
-    pub fn new_string(content: String) -> TransReq {
-        TransReq { content }
-    }
-
     pub fn new(content: &str) -> TransReq {
         TransReq {
             content: content.to_string(),
@@ -32,12 +28,6 @@ impl TransResponse {
     pub fn new_string(content: String) -> TransResponse {
         TransResponse { content }
     }
-
-    pub fn new(content: &str) -> TransResponse {
-        TransResponse {
-            content: content.to_string(),
-        }
-    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -46,10 +36,6 @@ pub struct TransErr {
 }
 
 impl TransErr {
-    pub fn new_string(content: String) -> TransErr {
-        TransErr { content }
-    }
-
     pub fn new(content: &str) -> TransErr {
         TransErr {
             content: content.to_string(),
@@ -79,9 +65,9 @@ pub async fn ready() -> impl Responder {
     HttpResponse::Ok().body("ready to response")
 }
 
-pub fn translate_content(content: &String) -> Result<TransResponse, TransErr> {
-    match content.as_str() {
+pub fn translate_content(content: &str) -> Result<TransResponse, TransErr> {
+    match content {
         "" => Err(TransErr::new("Blank translation content")),
-        _ => Ok(TransResponse::new_string(content.clone())),
+        _ => Ok(TransResponse::new_string(content.to_string())),
     }
 }
