@@ -1,4 +1,7 @@
+mod dtos;
+mod jsontransreqhandler;
 mod routeselb;
+mod translateroot;
 
 use crate::routeselb::{example, ready, translate};
 use actix_web::{middleware, App, HttpServer};

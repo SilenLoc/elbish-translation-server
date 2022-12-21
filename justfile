@@ -33,8 +33,10 @@ test:
 	cargo test
 
 # Perform all verifications (compile, test, lint etc.)
-verify: test lint
+verify: test lint 
 
+fmt:
+	cargo fmt
 
 # run the release process in dry run mode (requires `npm`, a `GITHUB_TOKEN` and a `CARGO_REGISTRY_TOKEN`)
 release *args:
