@@ -6,14 +6,14 @@ use crate::{
 };
 
 pub fn handle_trans_req(req_body: String) -> HttpResponse {
-    let extracted = safe_unwrap_json(req_body);
+    let extracted: Result<TransReq, JsonErr> = safe_unwrap_json(req_body);
 
     let safe = match extracted {
         Ok(v) => v,
         Err(e) => return HttpResponse::BadRequest().body(e.content),
     };
 
-    let translation_result = translate_content(&safe.content);
+    let translation_result = translate_content(&safe);
 
     let answer = translation_result
         .map(|r| serde_json::to_string(&r).unwrap())
@@ -31,9 +31,13 @@ fn safe_unwrap_json(req_body: String) -> Result<TransReq, JsonErr> {
     result
 }
 
-fn translate_content(content: &str) -> Result<TransResponse, TransErr> {
-    match content {
+fn translate_content(req: &TransReq) -> Result<TransResponse, TransErr> {
+    match req.content.as_str() {
         "" => Err(TransErr::new("Blank translation content")),
-        _ => Ok(TransResponse::from(translate(content.to_string()))),
+        _ => Ok(TransResponse::from(translate(
+            req.content.to_string(),
+            req.from.to_string(),
+            req.to.to_string(),
+        ))),
     }
 }
