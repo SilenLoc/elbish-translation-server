@@ -6,17 +6,21 @@ use crate::translateroot::TranslationResult;
 #[derive(Serialize, Deserialize)]
 pub struct TransReq {
     pub content: String,
+    pub from: String,
+    pub to: String,
 }
 
 impl TransReq {
-    pub fn new(content: &str) -> TransReq {
+    pub fn new(content: &str, from: &str, to: &str) -> TransReq {
         TransReq {
             content: content.to_string(),
+            from: from.to_string(),
+            to: to.to_string(),
         }
     }
 
     pub fn example() -> String {
-        serde_json::to_string(&TransReq::new("content to translate")).unwrap()
+        serde_json::to_string(&TransReq::new("content to translate", "en", "elb")).unwrap()
     }
 }
 
@@ -56,6 +60,42 @@ pub struct JsonErr {
 impl JsonErr {
     pub fn new(content: &str) -> JsonErr {
         JsonErr {
+            content: content.to_string(),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct NewTransReq {
+    pub from_lang: String,
+    pub to_lang: String,
+    pub word: String,
+    pub meanings: Vec<String>,
+}
+
+impl NewTransReq {
+    pub fn new(from_lang: &str, to_lang: &str, word: &str, meanings: Vec<&str>) -> NewTransReq {
+        NewTransReq {
+            from_lang: from_lang.to_string(),
+            to_lang: to_lang.to_string(),
+            word: word.to_string(),
+            meanings: meanings.into_iter().map(|s| s.to_string()).collect(),
+        }
+    }
+
+    pub fn example() -> String {
+        serde_json::to_string(&NewTransReq::new("en", "elb", "helllo", vec!["something"])).unwrap()
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct NewTransErr {
+    pub content: String,
+}
+
+impl NewTransErr {
+    pub fn new(content: &str) -> NewTransErr {
+        NewTransErr {
             content: content.to_string(),
         }
     }
