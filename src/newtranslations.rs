@@ -5,8 +5,7 @@ use std::{
 };
 
 use actix_web::HttpResponse;
-
-use crate::dtos::{JsonErr, NewTransErr, NewTransReq};
+use translation_server_dtos_silen::{JsonErr, NewTransErr, NewTransReq};
 
 pub fn new_translation(req_body: String) -> HttpResponse {
     let extracted: Result<NewTransReq, JsonErr> = safe_unwrap_json(req_body);

@@ -1,10 +1,7 @@
 use actix_web::{get, post, HttpResponse, Responder};
+use translation_server_dtos_silen::{NewTransReq, TransReq};
 
-use crate::{
-    dtos::{NewTransReq, TransReq},
-    jsontransreqhandler::handle_trans_req,
-    newtranslations::new_translation,
-};
+use crate::{jsontransreqhandler::handle_trans_req, newtranslations::new_translation};
 
 #[post("/translate")]
 pub async fn translate(req_body: String) -> impl Responder {
