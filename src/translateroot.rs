@@ -1,4 +1,4 @@
-use crate::languages::{Language, TransWord};
+use translation_server_dtos_silen::{Language, TransWord};
 
 pub struct TranslationResult {
     pub content: String,
