@@ -32,11 +32,18 @@ fn safe_unwrap_json(req_body: String) -> Result<TransReq, JsonErr> {
 fn translate_content(req: &TransReq) -> Result<TransResponse, TransErr> {
     match req.content.as_str() {
         "" => Err(TransErr::new("Blank translation content")),
-        _ => Ok(TransResponse::from_result(translate(
-            req.content.to_string(),
-            req.from.to_string(),
-            req.to.to_string(),
-        ))),
+        _ => {
+            let r = translate(
+                req.content.to_string(),
+                req.from.to_string(),
+                req.to.to_string(),
+            );
+
+            match r {
+                Ok(v) => Ok(TransResponse::from_result(v)),
+                Err(e) => Err(TransErr::new(&e.reason)),
+            }
+        }
     }
 }
 

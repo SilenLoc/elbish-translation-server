@@ -5,18 +5,21 @@ pub struct TranslationResult {
     pub able_to_translate: bool,
 }
 
-struct TranslationError {}
+pub struct TranslationError {
+    pub reason: String,
+}
 
-pub fn translate(to_trans: String, from_lang_id: String, to_lang_id: String) -> TranslationResult {
+pub fn translate(
+    to_trans: String,
+    from_lang_id: String,
+    to_lang_id: String,
+) -> Result<TranslationResult, TranslationError> {
     match translate_inner(to_trans, from_lang_id, to_lang_id) {
-        Ok(v) => TranslationResult {
+        Ok(v) => Ok(TranslationResult {
             content: (v),
             able_to_translate: (true),
-        },
-        Err(_) => TranslationResult {
-            content: ("".to_string()),
-            able_to_translate: (false),
-        },
+        }),
+        Err(e) => Err(e),
     }
 }
 
@@ -46,7 +49,11 @@ fn find_lang(id: String) -> Result<Language, TranslationError> {
             vec!['b'],
             vec![TransWord::new("", vec!["", ""])],
         )),
-        _ => Err(TranslationError {}),
+        _ => Err(TranslationError {
+            reason: "we do not support the language ->".to_string()
+                + &id
+                + "<- try following languages: en, elb",
+        }),
     }
 }
 
