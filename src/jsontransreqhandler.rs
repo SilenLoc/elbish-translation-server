@@ -1,7 +1,10 @@
 use actix_web::HttpResponse;
 use translation_server_dtos_silen::{JsonErr, TransErr, TransReq, TransResponse};
 
-use crate::translateroot::{translate, TranslationResult};
+use crate::{
+    reasonmanagement::Reason,
+    translateroot::{translate, TranslationResult},
+};
 
 pub fn handle_trans_req(req_body: String) -> HttpResponse {
     let extracted: Result<TransReq, JsonErr> = safe_unwrap_json(req_body);
@@ -31,7 +34,14 @@ fn safe_unwrap_json(req_body: String) -> Result<TransReq, JsonErr> {
 
 fn translate_content(req: &TransReq) -> Result<TransResponse, TransErr> {
     match req.content.as_str() {
-        "" => Err(TransErr::new("Blank translation content")),
+        "" => Err(TransErr::new(
+            &Reason::new(
+                "Blank translation content",
+                " ",
+                "try to transöate something",
+            )
+            .build(),
+        )),
         _ => {
             let r = translate(
                 req.content.to_string(),
